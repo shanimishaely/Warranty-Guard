@@ -8,7 +8,6 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tessera
 def extract_text_from_image(image_path: str) -> str:
     try:
         img = Image.open(image_path)
-        # כאן אנחנו אומרים לו לחפש גם עברית וגם אנגלית
         text = pytesseract.image_to_string(img, lang='heb+eng')
         return text.strip()
     except Exception as e:

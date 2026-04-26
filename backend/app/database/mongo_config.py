@@ -1,6 +1,11 @@
-import motor.motor_asyncio
+import os
 
-MONGO_DETAILS = "mongodb+srv://shanimisha:shani@cluster0.enszkgs.mongodb.net/?appName=Cluster0"
+import motor.motor_asyncio
+from dotenv import load_dotenv
+
+load_dotenv()
+
+MONGO_DETAILS = os.getenv("MONGO_DETAILS")
 
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
 db = client.warranty_db

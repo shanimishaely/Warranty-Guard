@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, status, Depends
+from fastapi import APIRouter, HTTPException, status, Depends, Body
 from app.models.user_model import User
 from app.utils.security import hash_password, verify_password
 from app.database.mongo_config import users_collection
@@ -22,9 +22,9 @@ async def signup(user: User):
 
 
 @router.post("/login")
-async def login(user: User):
-    db_user = await users_collection.find_one({"email": user.email})
-    if not db_user or not verify_password(user.password, db_user["password"]):
+async def login(user: dict = Body(...)):
+    db_user = await users_collection.find_one({"email": user.get("email")})
+    if not db_user or not verify_password(user.get("password"), db_user["password"]):
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
     token_data = sign_jwt(
